@@ -19,13 +19,12 @@ pub fn build(b: *std.Build) void {
             },
         }),
     });
-
     b.installArtifact(exe);
+
     const run_step = b.step("run", "Run the app");
-
     const run_cmd = b.addRunArtifact(exe);
-    run_step.dependOn(&run_cmd.step);
 
+    run_step.dependOn(&run_cmd.step);
     run_cmd.step.dependOn(b.getInstallStep());
 
     if (b.args) |args| {
@@ -50,8 +49,8 @@ pub fn build(b: *std.Build) void {
 
     const py_include = b.option([]const u8, "python-include", "Directory containing Python.h");
     const py_libdir = b.option([]const u8, "python-libdir", "Windows only: directory containing pythonXY.lib");
-    const py_lib = b.option([]const u8, "python-lib", "Windows only: import library name, e.g. python312");
-    const ext_name = b.option([]const u8, "ext-name", "Output file name, e.g. _core.cpython-312-x86_64-linux-gnu.so") orelse "_core.so";
+    const py_lib = b.option([]const u8, "python-lib", "Windows only: import library name, e.g. python314");
+    const ext_name = b.option([]const u8, "ext-name", "Output file name, e.g. _core.cpython-314-x86_64-linux-gnu.so") orelse "_core.so";
 
     const pyext_step = b.step("pyext", "Build the CPython extension (requires -Dpython-include)");
 
@@ -66,6 +65,7 @@ pub fn build(b: *std.Build) void {
                 .{ .name = "zig_micrograd", .module = mod },
             },
         });
+
         const capi_lib = b.addLibrary(.{
             .name = "mgcapi",
             .linkage = .static,
@@ -78,12 +78,14 @@ pub fn build(b: *std.Build) void {
             .link_libc = true,
             .pic = true,
         });
+
         ext_mod.addIncludePath(b.path("src"));
         ext_mod.addIncludePath(.{ .cwd_relative = include_dir });
         ext_mod.addCSourceFile(.{
             .file = b.path("src/micrograd.c"),
             .flags = &.{},
         });
+
         ext_mod.linkLibrary(capi_lib);
 
         if (target.result.os.tag == .windows) {

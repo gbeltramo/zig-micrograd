@@ -11,10 +11,10 @@ build:
 	python -m build -v .
 
 install-wheel:
-	pip install --upgrade ./dist/zig_micrograd-0.1.0-cp314-cp314-linux_x86_64.whl
+	pip install --upgrade ./dist/zig_micrograd-*.whl
 
 install:
-	uv sync
+	uv sync --no-install-project
 
 test:
 	pytest -v tests/

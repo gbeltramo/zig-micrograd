@@ -2,13 +2,6 @@
 
 A Zig 0.16.0 port of Andrej Karpathy's [micrograd](https://github.com/karpathy/micrograd/), a tiny scalar-valued autograd engine.
 
-## Zig side
-
-```shell
-zig build run --summary all  # to test the code in main.zig
-zig build test --summary all  # to run the unit tests in root.zig
-```
-
 ## Python side
 
 This was tested with `cpython==3.14.8`, `uv==0.12.22` and `ziglang==0.16.0`.
@@ -21,3 +14,10 @@ This was tested with `cpython==3.14.8`, `uv==0.12.22` and `ziglang==0.16.0`.
 - `make style`: format and lint
 
 The original micrograd project is licensed under the MIT License.
+
+## Zig side
+
+```shell
+python -m ziglang build run --summary all  # to test the code in main.zig
+python -m ziglang build test --summary all  # to run the unit tests in root.zig
+```
