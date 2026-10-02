@@ -1,0 +1,12 @@
+.{
+    .name = .zig_micrograd,
+    .version = "0.0.1",
+    .fingerprint = 0x49371fa9eef272ad,
+    .minimum_zig_version = "0.16.0",
+    .dependencies = .{},
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+    },
+}

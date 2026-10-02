@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=84", "ziglang==0.16.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zig-micrograd"
+version = "0.1.0"
+requires-python = ">=3.14,<3.15"
+
+dependencies = [
+    "setuptools >= 84",
+    "build",
+    "torch>=2.14",
+    "pytest",
+    "ipython",
+    "ruff",
+    "ziglang==0.16.0",
+]
+
+[tool.setuptools]
+packages = ["zig_micrograd"]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore:Failed to initialize NumPy.*:UserWarning",
+]

@@ -1,0 +1,2 @@
+include build.zig build.zig.zon
+recursive-include src *.zig *.c *.h

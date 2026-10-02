@@ -1,0 +1,12 @@
+# Files
+*~
+*.log
+*.db
+_core.cpython*
+
+# Directories
+/dist/
+/.zig-cache/
+/zig-out/
+/zig_micrograd.egg-info/
+__pycache__/
