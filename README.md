@@ -6,14 +6,13 @@ A Zig 0.16.0 port of Andrej Karpathy's [micrograd](https://github.com/karpathy/m
 
 This was tested with `cpython==3.14.8`, `uv==0.12.22` and `ziglang==0.16.0`.
 
-- `make lock`: lock dependencies
-- `make build`: build CPython extension for your platform using `ziglang==0.16.0`
-- `make install-wheel`: install `zig_micrograd` wheel from `make build`
-- `make install`: install all dependencies
-- `make test`: run tests
-- `make style`: format and lint
+After creating a Python virtual environment with `uv venv --seed --prompt micrograd --python 3.14` and activating it, we can run `make all` or the following commands individually. See the `Makefile`.
 
-The original micrograd project is licensed under the MIT License.
+- `make lock`: lock dependencies
+- `make install-deps`: install only the `.venv` dependencies (including `ziglang`)
+- `make build-wheel`: build CPython extension for your platform using `ziglang==0.16.0`
+- `make install-wheel-only`: install `zig_micrograd` wheel from previous step
+- `make test`: run tests
 
 ## Zig side
 
@@ -26,7 +25,7 @@ python -m ziglang build test --summary all  # to run the unit tests in root.zig
 
 Train a small MLP on MNIST digits with the command `make train-MNIST` as a sanity check.
 
-At the end of training, there is a small visualization of each prediction.
+At the end of training, there is a small visualization of each prediction on a subset of the test set.
 
 ![MNIST prediction viewer showing a test digit and the model's class scores](images/MNIST_predict_5.png)
 
