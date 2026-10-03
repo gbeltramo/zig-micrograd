@@ -180,7 +180,7 @@ static PyObject *Value_backward(ValueObject *self, PyObject *Py_UNUSED(ignored))
 static PyMethodDef Value_methods[] = {
     {"relu", (PyCFunction)Value_relu, METH_NOARGS, "ReLU activation."},
     {"backward", (PyCFunction)Value_backward, METH_NOARGS,
-     "Backpropagate from this node (gradients accumulate, as in micrograd)."},
+     "Backpropagate from this node."},
     {NULL, NULL, 0, NULL},
 };
 

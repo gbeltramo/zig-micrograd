@@ -10,9 +10,12 @@ requires-python = ">=3.14,<3.15"
 dependencies = [
     "setuptools >= 84",
     "ziglang==0.16.0",
-    "build",
-    "torch>=2.14",
-    "pytest",
+    "build==1.6.1",
+    "numpy>=2.5.3,<3.0.0",
+    "torchvision",
+    "torch>=2.14,<3.0.0",
+    "matplotlib",
+    "pytest>=9.1.1",
     "ipython",
     "ruff",
 ]
@@ -22,13 +25,9 @@ packages = ["zig_micrograd"]
 
 [tool.uv.sources]
 torch = { index = "pytorch-cpu" }
+torchvision = { index = "pytorch-cpu" }
 
 [[tool.uv.index]]
 name = "pytorch-cpu"
 url = "https://download.pytorch.org/whl/cpu"
 explicit = true
-
-[tool.pytest.ini_options]
-filterwarnings = [
-    "ignore:Failed to initialize NumPy.*:UserWarning",
-]

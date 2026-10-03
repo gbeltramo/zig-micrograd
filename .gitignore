@@ -6,7 +6,9 @@ _core.cpython*
 
 # Directories
 /dist/
+/build/
 /.zig-cache/
 /zig-out/
 /zig_micrograd.egg-info/
 __pycache__/
+data/MNIST/

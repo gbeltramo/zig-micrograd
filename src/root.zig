@@ -235,33 +235,41 @@ pub fn ComputationDAG(comptime T: type) type {
 
         fn buildTopo(
             allocator: mem.Allocator,
-            node: *Node,
+            root: *Node,
             order: *std.ArrayList(*Node),
             visited: *std.AutoHashMap(*Node, void),
         ) mem.Allocator.Error!void {
-            if (visited.contains(node)) return;
-            try visited.put(node, {});
+            const Frame = struct { node: *Node, next: u8 };
 
-            switch (node.*) {
-                .leaf => {},
-                .add => |add_node| {
-                    for (add_node.children) |child| {
-                        try buildTopo(allocator, child, order, visited);
+            if (visited.contains(root)) return;
+            try visited.put(root, {});
+
+            var stack: std.ArrayList(Frame) = .empty;
+            defer stack.deinit(allocator);
+            try stack.append(allocator, .{ .node = root, .next = 0 });
+
+            while (stack.items.len > 0) {
+                const top = &stack.items[stack.items.len - 1];
+
+                const child: ?*Node = switch (top.node.*) {
+                    .leaf => null,
+                    .add => |n| if (top.next < 2) n.children[top.next] else null,
+                    .mul => |n| if (top.next < 2) n.children[top.next] else null,
+                    .pow => |n| if (top.next < 1) n.child else null,
+                    .relu => |n| if (top.next < 1) n.child else null,
+                };
+
+                if (child) |c| {
+                    top.next += 1; // must happen before append (append may invalidate `top`)
+                    if (!visited.contains(c)) {
+                        try visited.put(c, {});
+                        try stack.append(allocator, .{ .node = c, .next = 0 });
                     }
-                },
-                .mul => |mul_node| {
-                    for (mul_node.children) |child| {
-                        try buildTopo(allocator, child, order, visited);
-                    }
-                },
-                .pow => |pow_node| {
-                    try buildTopo(allocator, pow_node.child, order, visited);
-                },
-                .relu => |relu_node| {
-                    try buildTopo(allocator, relu_node.child, order, visited);
-                },
+                } else {
+                    try order.append(allocator, top.node);
+                    _ = stack.pop();
+                }
             }
-            try order.append(allocator, node);
         }
 
         pub fn backward(
